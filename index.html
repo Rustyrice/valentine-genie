@@ -1,0 +1,630 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Ink's Valentine Genie 💕</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Google Font -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        box-sizing: border-box;
+        font-family: "Playfair Display", serif;
+      }
+
+      body {
+        margin: 0;
+        height: 100vh;
+        background: radial-gradient(circle at top, #3b0a45, #120016);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+        color: #fff;
+      }
+
+      /* Sparkles */
+      .sparkle {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: pink;
+        transform: rotate(45deg);
+        animation: float 6s infinite ease-in-out;
+        opacity: 0.8;
+      }
+
+      .sparkle::before,
+      .sparkle::after {
+        content: "";
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        background: pink;
+        border-radius: 50%;
+      }
+
+      .sparkle::before {
+        top: -6px;
+        left: 0;
+      }
+
+      .sparkle::after {
+        left: -6px;
+        top: 0;
+      }
+
+      @keyframes float {
+        from {
+          transform: translateY(0) scale(0.6);
+        }
+        to {
+          transform: translateY(-120vh) scale(1);
+        }
+      }
+
+      /* Game Card */
+      .game-container {
+        position: relative;
+        width: 340px;
+        height: 560px;
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        box-shadow: 0 20px 60px rgba(255, 0, 128, 0.25);
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(12px);
+      }
+
+      /* Speech Bubble */
+      .bubble {
+        background: #fff;
+        color: #3b0a45;
+        padding: 14px 18px;
+        border-radius: 20px;
+        text-align: center;
+        font-size: 1rem;
+        position: relative;
+        animation: fadeIn 0.6s ease;
+      }
+
+      .bubble::after {
+        content: "";
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        border-width: 10px 10px 0;
+        border-style: solid;
+        border-color: #fff transparent transparent;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Genie */
+      .genie {
+        width: 160px;
+        height: 220px;
+        background: radial-gradient(circle at top, #ff9ad5, #8a2be2);
+        border-radius: 50% 50% 40% 40%;
+        position: relative;
+        animation: hover 3s ease-in-out infinite;
+      }
+
+      @keyframes hover {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      .genie::before {
+        position: absolute;
+        top: -24px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 24px;
+        animation: pulse 1.8s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.6;
+        }
+        50% {
+          opacity: 1;
+        }
+      }
+
+      /* Photo Carousel */
+      .carousel {
+        width: 160px;
+        height: 90px;
+        overflow: hidden;
+        border-radius: 14px;
+        box-shadow: 0 8px 24px rgba(255, 105, 180, 0.45);
+      }
+
+      .carousel-track {
+        display: flex;
+        width: max-content;
+        animation: carouselScroll 90s linear infinite;
+      }
+
+      .carousel-track img {
+        width: 160px;
+        height: 90px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+
+      @keyframes carouselScroll {
+        from {
+          transform: translateX(0);
+        }
+        to {
+          transform: translateX(-3040px);
+        }
+      }
+
+      /* Lamp smoke */
+      .smoke {
+        position: absolute;
+        bottom: 120px;
+        width: 40px;
+        height: 40px;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.9),
+          rgba(255, 255, 255, 0.4),
+          transparent
+        );
+        border-radius: 50%;
+        animation: smokeRise 1.4s ease-out forwards;
+        pointer-events: none;
+        filter: blur(2px);
+      }
+
+      @keyframes smokeRise {
+        0% {
+          opacity: 0.9;
+          transform: translateY(0) scale(0.7);
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-120px) scale(1.8);
+        }
+      }
+
+      /* Input */
+      input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 14px;
+        border: none;
+        outline: none;
+        font-size: 0.95rem;
+        text-align: center;
+      }
+
+      button {
+        margin-top: 10px;
+        padding: 10px 18px;
+        border-radius: 18px;
+        border: none;
+        background: linear-gradient(135deg, #ff5fa2, #ff85c2);
+        color: white;
+        font-size: 0.95rem;
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(255, 0, 128, 0.4);
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      button:hover {
+        transform: scale(1.05);
+      }
+
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        transform: none !important;
+      }
+
+      input:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      audio {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Music -->
+    <audio id="bgMusic" autoplay loop muted>
+      <source src="assets/song.mp3" type="audio/mpeg" />
+    </audio>
+
+    <!-- Sparkles -->
+    <script>
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.className = "sparkle";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = 100 + Math.random() * 20 + "vh";
+        heart.style.animationDuration = 5 + Math.random() * 5 + "s";
+        heart.style.opacity = 0.5 + Math.random() * 0.5;
+        document.body.appendChild(heart);
+      }
+    </script>
+
+    <!-- Game UI -->
+    <div class="game-container">
+      <div class="bubble" id="bubble"></div>
+
+      <div class="genie">
+        <img
+          id="genieImg"
+          src="/assets/happy_genie.png"
+          style="width: 100%; transition: opacity 0.4s ease"
+        />
+      </div>
+      <div class="carousel">
+        <div class="carousel-track">
+          <img src="/assets/carousel_1.jpg" />
+          <img src="/assets/carousel_2.jpg" />
+          <img src="/assets/carousel_3.jpg" />
+          <img src="/assets/carousel_4.jpg" />
+          <img src="/assets/carousel_5.jpg" />
+          <img src="/assets/carousel_6.jpg" />
+          <img src="/assets/carousel_7.jpg" />
+          <img src="/assets/carousel_8.jpg" />
+          <img src="/assets/carousel_9.jpg" />
+          <img src="/assets/carousel_10.jpg" />
+          <img src="/assets/carousel_11.jpg" />
+          <img src="/assets/carousel_12.jpg" />
+          <img src="/assets/carousel_13.jpg" />
+          <img src="/assets/carousel_14.jpg" />
+          <img src="/assets/carousel_15.jpg" />
+          <img src="/assets/carousel_16.jpg" />
+          <img src="/assets/carousel_17.jpg" />
+          <img src="/assets/carousel_18.jpg" />
+          <img src="/assets/carousel_19.jpg" />
+          <img src="/assets/carousel_20.jpg" />
+          <img src="/assets/carousel_21.jpg" />
+          <img src="/assets/carousel_22.jpg" />
+          <img src="/assets/carousel_23.jpg" />
+          <img src="/assets/carousel_24.jpg" />
+          <img src="/assets/carousel_25.jpg" />
+          <img src="/assets/carousel_26.jpg" />
+          <img src="/assets/carousel_27.jpg" />
+          <img src="/assets/carousel_28.jpg" />
+
+          <!-- duplicate for seamless loop -->
+          <img src="/assets/carousel_1.jpg" />
+          <img src="/assets/carousel_2.jpg" />
+          <img src="/assets/carousel_3.jpg" />
+          <img src="/assets/carousel_4.jpg" />
+          <img src="/assets/carousel_5.jpg" />
+          <img src="/assets/carousel_6.jpg" />
+          <img src="/assets/carousel_7.jpg" />
+          <img src="/assets/carousel_8.jpg" />
+          <img src="/assets/carousel_9.jpg" />
+          <img src="/assets/carousel_10.jpg" />
+          <img src="/assets/carousel_11.jpg" />
+          <img src="/assets/carousel_12.jpg" />
+          <img src="/assets/carousel_13.jpg" />
+          <img src="/assets/carousel_14.jpg" />
+          <img src="/assets/carousel_15.jpg" />
+          <img src="/assets/carousel_16.jpg" />
+          <img src="/assets/carousel_17.jpg" />
+          <img src="/assets/carousel_18.jpg" />
+          <img src="/assets/carousel_19.jpg" />
+          <img src="/assets/carousel_20.jpg" />
+          <img src="/assets/carousel_21.jpg" />
+          <img src="/assets/carousel_22.jpg" />
+          <img src="/assets/carousel_23.jpg" />
+          <img src="/assets/carousel_24.jpg" />
+          <img src="/assets/carousel_25.jpg" />
+          <img src="/assets/carousel_26.jpg" />
+          <img src="/assets/carousel_27.jpg" />
+          <img src="/assets/carousel_28.jpg" />
+        </div>
+      </div>
+
+      <div style="width: 100%">
+        <div
+          id="hint"
+          style="
+            text-align: center;
+            font-size: 0.8rem;
+            opacity: 0.7;
+            margin-bottom: 6px;
+            display: none;
+          "
+        >
+          Press Enter to proceed
+        </div>
+        <input id="wishInput" placeholder="Whisper your wish..." />
+        <button id="nextBtn">Seal this wish ✨</button>
+        <button id="playAgainBtn" style="display: none; margin-top: 12px">
+          Play Again
+        </button>
+      </div>
+    </div>
+
+    <script type="module">
+      import { saveWishesToDB } from "./firebase.js";
+
+      const bubble = document.getElementById("bubble");
+      const input = document.getElementById("wishInput");
+      const btn = document.getElementById("nextBtn");
+      const genieImg = document.getElementById("genieImg");
+      const hint = document.getElementById("hint");
+      const music = document.getElementById("bgMusic");
+
+      let canProceed = false;
+      let typingInterval;
+      let wishes = [];
+
+      function enableAudio() {
+        music.muted = false;
+        music.play();
+        document.removeEventListener("click", enableAudio);
+        document.removeEventListener("keydown", enableAudio);
+      }
+
+      document.addEventListener("click", enableAudio);
+      document.addEventListener("keydown", enableAudio);
+
+      function lockInput(hintText = "Press Enter to proceed") {
+        input.disabled = true;
+        btn.disabled = true;
+        btn.hidden = true;
+        hint.textContent = hintText;
+        hint.style.display = "block";
+      }
+
+      function unlockInput() {
+        input.disabled = false;
+        btn.disabled = false;
+        btn.hidden = false;
+        hint.style.display = "none";
+        input.focus();
+      }
+
+      function typeText(element, text, speed = 35, onComplete) {
+        clearInterval(typingInterval);
+        element.textContent = "";
+        lockInput("Press Enter to proceed");
+        canProceed = false;
+
+        let i = 0;
+        typingInterval = setInterval(() => {
+          element.textContent += text[i];
+          i++;
+          if (i >= text.length) {
+            clearInterval(typingInterval);
+            setTimeout(() => {
+              canProceed = true;
+              if (onComplete) onComplete();
+            }, 500);
+          }
+        }, speed);
+      }
+
+      function puffSmoke() {
+        const inputEl = document.getElementById("wishInput");
+        const inputRect = inputEl.getBoundingClientRect();
+        const containerRect = document
+          .querySelector(".game-container")
+          .getBoundingClientRect();
+
+        for (let i = 0; i < 3; i++) {
+          const smoke = document.createElement("div");
+          smoke.className = "smoke";
+
+          smoke.style.left =
+            inputRect.right -
+            containerRect.left -
+            20 +
+            Math.random() * 12 +
+            "px";
+
+          smoke.style.bottom = containerRect.bottom - inputRect.top - 12 + "px";
+
+          smoke.style.animationDelay = i * 0.1 + "s";
+
+          document.querySelector(".game-container").appendChild(smoke);
+          setTimeout(() => smoke.remove(), 1500);
+        }
+      }
+
+      const prompts = [
+        "Hiii Ink!",
+        "Happy Valentines Day!!!",
+        "You must be one special girl",
+        "Because your boyfriend asked for my help hahaha",
+        "I am the Valentine Genie ❤️",
+        "And I am here to grant you 3 wishes",
+        "Tell me your wishes and I will make sure they come true!",
+        "Are you ready?",
+        "Let's go!",
+
+        // Wish 1
+        "What is your first wish, my love? ❤️‍🔥",
+        "Oooh interesting choice 😏",
+
+        // Wish 2
+        "And your second wish? ✨",
+        "Oh my god, you are such a naughty girl 😈",
+
+        // Wish 3
+        "Finally... your last wish 💫",
+      ];
+
+      const genieStates = {
+        happy_genie: "/assets/happy_genie.png",
+        happy_big_eyed_genie: "/assets/happy_big_eyed_genie.png",
+        surprised_genie: "/assets/surprised_genie.png",
+        big_eyed_genie_with_gift: "/assets/big_eyed_genie_with_gift.png",
+        genie_with_lamp: "/assets/genie_with_lamp.png",
+        flying_genie: "/assets/flying_genie.png",
+      };
+
+      let step = 0;
+
+      function advanceGenieStep() {
+        puffSmoke();
+
+        // Update genie image based on step
+        let nextImage = genieStates.happy_genie;
+        if (step === 1) nextImage = genieStates.happy_big_eyed_genie;
+        else if (step === 2) nextImage = genieStates.happy_big_eyed_genie;
+        else if (step === 3) nextImage = genieStates.happy_genie;
+        else if (step === 4) nextImage = genieStates.genie_with_lamp;
+        else if (step === 5) nextImage = genieStates.big_eyed_genie_with_gift;
+        else if (step === 6) nextImage = genieStates.happy_genie;
+        else if (step === 7) nextImage = genieStates.surprised_genie;
+        else if (step === 8) nextImage = genieStates.happy_genie;
+        else if (step === 9) nextImage = genieStates.flying_genie;
+        else if (step === 10) nextImage = genieStates.surprised_genie;
+        else if (step === 11) nextImage = genieStates.flying_genie;
+        else if (step === 12) nextImage = genieStates.surprised_genie;
+        else if (step === 13) nextImage = genieStates.big_eyed_genie_with_gift;
+
+        genieImg.style.opacity = "0";
+        setTimeout(() => {
+          genieImg.src = nextImage;
+          genieImg.style.opacity = "1";
+        }, 200);
+
+        if (step < 9) {
+          typeText(bubble, prompts[step], 35);
+          lockInput("Press Enter to proceed");
+        } else if ([9, 11, 13].includes(step)) {
+          // Wish input steps
+          typeText(bubble, prompts[step], 35, () => {
+            unlockInput();
+            input.placeholder = "Whisper your wish...";
+            btn.textContent = "Seal this wish ✨";
+          });
+        } else if ([10, 12].includes(step)) {
+          // Genie witty response steps
+          typeText(bubble, prompts[step], 35);
+          lockInput("Press Enter to proceed");
+        } else if (step === 15) {
+          typeText(bubble, "Your wishes are sealed in magic 💕");
+          lockInput("✨ Magic sealed ✨");
+          btn.style.display = "none";
+          input.style.display = "none";
+
+          // Show Play Again button
+          const playAgainBtn = document.getElementById("playAgainBtn");
+          playAgainBtn.style.display = "block";
+          playAgainBtn.onclick = () => {
+            location.reload();
+          };
+        }
+      }
+
+      btn.onclick = async () => {
+        // Only allow submission during wish steps
+        if (![9, 11, 13].includes(step)) return;
+
+        const value = input.value.trim();
+        if (!value) return;
+
+        // Save wish for steps 9,11,13 ONLY
+        wishes.push(value);
+        input.value = "";
+        step++;
+
+        // If we just finished the 3rd wish (step moved from 13 → 14)
+        if (step === 14) {
+          // Final validation before saving
+          if (wishes.length !== 3) {
+            console.error("Invalid wish count:", wishes);
+            bubble.innerText = "Something went wrong. Please try again.";
+            return;
+          }
+
+          console.log("Saving wishes:", wishes);
+          lockInput("✨ Sealing your wishes ✨");
+
+          try {
+            await saveWishesToDB({
+              wish1: wishes[0],
+              wish2: wishes[1],
+              wish3: wishes[2],
+            });
+
+            // Advance to final message AFTER successful save
+            step = 15;
+            advanceGenieStep();
+          } catch (error) {
+            console.error("Error saving wishes to Firestore:", error);
+            bubble.innerText = "Oops! Something went wrong. Try again later.";
+            unlockInput();
+          }
+        } else {
+          // Still collecting wishes or in witty response step
+          advanceGenieStep();
+        }
+      };
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key !== "Enter") return;
+        if (!canProceed) return;
+
+        // Wish steps: MUST submit, cannot skip
+        if ([9, 11, 13].includes(step)) {
+          if (!input.disabled && input.value.trim().length > 0) {
+            btn.click();
+          }
+          return;
+        }
+
+        // Witty response steps (10, 12): allow advancing
+        if ([10, 12].includes(step)) {
+          step++;
+          advanceGenieStep();
+          return;
+        }
+
+        // Intro / non-wish steps
+        if (step < 9) {
+          step++;
+          advanceGenieStep();
+        }
+      });
+
+      lockInput();
+      typeText(bubble, prompts[0], 35);
+    </script>
+  </body>
+</html>
